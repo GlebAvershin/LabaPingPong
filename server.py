@@ -12,7 +12,7 @@ def request(client_socket):
         if request == "ping": # Если ping, отправляем pong
             response = "pong"
         else:
-            response = "error"
+            response = "error: Неверный запрос"
 
         client_socket.send(response.encode('utf-8')) # Отправляем ответ
         print(f"Отправлен ответ: {response}")
