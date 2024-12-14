@@ -1,30 +1,34 @@
 import socket
 import time
+import argparse
 
-
-def send():
+def send(client_index):
     """
-    функция клиента, которая отправляет запрос и ожидает ответ от сервера
+    Функция клиента, которая отправляет запрос и ожидает ответ от сервера.
     """
     try:
         while True:
-            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # новый сокет для каждого подключения
+            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Новый сокет для каждого подключения
             client_socket.connect(('127.0.0.1', 12345))
-            client_socket.send("ping".encode('utf-8'))
-            print("Отправлен запрос: ping")
+            client_socket.send(f"ping от клиента {client_index}".encode('utf-8'))  # Отправляем ping с индексом клиента
+            print(f"Отправлен запрос: ping ")
 
             response = client_socket.recv(256).decode('utf-8').strip()
             print(f"Получен ответ: {response}")
 
-            if response == "pong":
+            if response.startswith("pong"):
                 print("Тест пройден успешно.")
             else:
                 print("Ошибка: получен неверный ответ.")
 
             client_socket.close()
-            time.sleep(1)
+            time.sleep(1)  # Задержка между запросами
     except Exception as e:
         print(f"Ошибка: {e}")
 
 if __name__ == "__main__":
-    send()
+    parser = argparse.ArgumentParser(description='Клиент для отправки ping запросов на сервер.')
+    parser.add_argument('index', type=int, help='Индекс клиента (например, 1, 2, 3 и т.д.)')
+
+    args = parser.parse_args()
+    send(args.index)
