@@ -37,18 +37,15 @@ def server():
     global server_socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Создаем TCP-сокет
 
-    # Убираем настройку SO_REUSEADDR для предотвращения запуска нескольких серверов
-    # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
     try:
         server_socket.bind(('127.0.0.1', 12345))
     except OSError as e:
         print("Ошибка: Порт уже занят. Убедитесь, что другой сервер не запущен.")
-        sys.exit(1)  # Завершаем программу с кодом ошибки
+        sys.exit(1)
     server_socket.listen()
     print("Сервер ожидает подключения...")
 
-    signal.signal(signal.SIGINT, signal_handler)  # Обработка сигнала прерывания (Ctrl+C)
+    signal.signal(signal.SIGINT, signal_handler)  # Обработка сигнала прерывания 
 
     while True:
         try:
