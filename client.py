@@ -27,8 +27,8 @@ def send(client_index):
         print(f"Ошибка: {e}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Клиент для отправки ping запросов на сервер.')
-    parser.add_argument('index', type=int, help='Индекс клиента (например, 1, 2, 3 и т.д.)')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('index', type=int)
 
     args = parser.parse_args()
     send(args.index)
